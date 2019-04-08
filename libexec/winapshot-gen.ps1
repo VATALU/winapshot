@@ -16,33 +16,47 @@ param (
     $module
 )
 process {
-    . "..\lib\Modules.ps1"
-    . "..\lib\Scoop.ps1"
-    . "..\lib\Profile.ps1"
+    . "$psscriptroot\..\lib\Modules.ps1"
+    . "$psscriptroot\..\lib\Scoop.ps1"
+    . "$psscriptroot\..\lib\Profile.ps1"
 
-    if (!(Test-Path Set-All.ps1)) {
-        New-Item Set-All.ps1
+    $SetAllFolderPath = "winapshot"
+    $SetAllFilePath = ".\$SetAllFolderPath\Set-All.ps1"
+    $SetAllConfigFolderPath = "$SetAllFolderPath\config"
+
+    if (!(Test-Path $SetAllFolderPath)) {
+        mkdir $SetAllFolderPath
+    }
+
+    if (!(Test-Path $SetAllFilePath)) {
+        New-Item $SetAllFilePath
     }
     else {
-        Clear-Content Set-All.ps1
+        Clear-Content $SetAllFilePath
     }
+
     if ($all -or !($scoop -or $module)) {
-        Gen-Modules >> Set-All.ps1
-        Gen-Scoop >> Set-All.ps1
+        Gen-Modules >> $SetAllFilePath
+        Gen-Scoop >> $SetAllFilePath
     }
     else {
         if ($scoop) {
-            Gen-Scoop >> Set-All.ps1
+            Gen-Scoop >> $SetAllFilePath
         }
         if ($module) {
-            Gen-Modules >> Set-All.ps1
+            Gen-Modules >> $SetAllFilePath
         }
     }
-
-    if(Test-Path $PROFILE) {
-        mkdir config
-        Copy-Item $PROFILE .\config\
-        Copy-OldProfile >> Set-All.ps1
-        Gen-Profile >> Set-All.ps1
+    if (!(Test-Path $SetAllConfigFolderPath)) {
+        mkdir $SetAllConfigFolderPath
+    }
+    if (Test-Path $PROFILE) {
+        $ProfileCopyPath =$SetAllConfigFolderPath+".\$PROFILE.Substring($PROFILE.LastIndexOf('\')+1)"
+        if(Test-Path $ProfileCopyPath) {
+            Remove-Item $ProfileCopyPath
+        }
+        Copy-Item $PROFILE $SetAllConfigFolderPath
+        Copy-OldProfile >> $SetAllFilePath
+        Gen-Profile >> $SetAllFilePath
     }
 }

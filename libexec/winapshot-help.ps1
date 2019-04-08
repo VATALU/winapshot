@@ -2,8 +2,8 @@
 # Summary: Show help for a command
 param($cmd)
 
-. "..\lib\Command.ps1"
-. "..\lib\Help.ps1"
+. "$psscriptroot\..\lib\Command.ps1"
+. "$psscriptroot\..\lib\Help.ps1"
 
 function print_help($cmd) {
     $file = Get-Content (Get-WinapshotCommandPath $cmd) -raw

@@ -1,5 +1,5 @@
 function Get-WinapshotCommandFiles {
-    Get-ChildItem('..\libexec') | Where-Object { $_.name -match 'winapshot-.*?\.ps1$' }
+    Get-ChildItem("$psscriptroot/../libexec") | Where-Object { $_.name -match 'winapshot-.*?\.ps1$' }
 }
 
 function Get-WinapshotCommands {
@@ -11,7 +11,7 @@ function Get-WinapshotCommandName($fileName) {
 }
 
 function Get-WinapshotCommandPath($cmd) {
-    $cmdPath = "..\libexec\winapshot-$cmd.ps1"
+    $cmdPath = "$psscriptroot/../libexec/winapshot-$cmd.ps1"
     $cmdPath
 }
 
