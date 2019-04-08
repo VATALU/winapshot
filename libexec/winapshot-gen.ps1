@@ -18,6 +18,8 @@ param (
 process {
     . "..\lib\Gen-Modules.ps1"
     . "..\lib\Gen-Scoop.ps1"
+    . "..\lib\Gen-Profile.ps1"
+
     if (!(Test-Path Set-All.ps1)) {
         New-Item Set-All.ps1
     }
@@ -35,5 +37,12 @@ process {
         if ($module) {
             Gen-Modules >> Set-All.ps1
         }
+    }
+
+    if(Test-Path $PROFILE) {
+        mkdir config
+        cp $PROFILE .\config\
+        Copy-OldProfile >> Set-All.ps1
+        Gen-Profile >> Set-All.ps1
     }
 }
