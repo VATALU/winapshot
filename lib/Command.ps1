@@ -14,3 +14,8 @@ function Get-WinapshotCommandPath($cmd) {
     $cmdPath = "..\libexec\winapshot-$cmd.ps1"
     $cmdPath
 }
+
+function Exec-Command($cmd, $arguments) {
+    $cmdPath = Get-WinapshotCommandPath $cmd
+    & $cmdPath @arguments
+}
