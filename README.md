@@ -25,9 +25,7 @@ help  Show help for a command
 It will create a folder named winapshot.
 
     > cd winapshot
-
     > ls
-
     config        Set-All.ps1
 
 **config** contains the configs of your computer
@@ -37,5 +35,4 @@ It will create a folder named winapshot.
 Copy the winapshot folder to your new computer and run the **Set-All.ps1**.
 
     > cd winapshot
-    
     .\Set-All.ps1
